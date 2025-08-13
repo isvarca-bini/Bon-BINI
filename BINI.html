@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATTACHEMENT JOURNALIER - BINI</title>
+<style>
+  :root{
+    --bleu-header:#1e90ff;
+    --jaune:#ffe600;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f3f6f9;color:#000;}
+  .page{width:900px;max-width:100%;margin:24px auto;background:#fff;border:1px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+  .header{display:flex;gap:16px;padding:16px;background:#eaf4ff;border-bottom:4px solid var(--bleu-header);align-items:center;}
+  .logo-wrap{flex:0 0 220px;display:flex;flex-direction:column;align-items:center;gap:8px;}
+  #logo{max-width:200px;max-height:70px;object-fit:contain;border:1px dashed #bbb;padding:4px;background:#fff;}
+  .societe{flex:1;border:2px solid var(--bleu-header);padding:12px 16px;line-height:1.4;font-size:14px;}
+  .band{background:var(--jaune);color:#005;text-align:center;font-weight:800;padding:8px 12px;letter-spacing:1px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;}
+  .bloc{background:#0fb1c7;padding:20px 24px 28px;color:#001b21;}
+  .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px;}
+  .row h1{margin:0;font-size:26px;color:#c30000;}
+  .row .date{font-size:18px;font-weight:700;}
+  .list{margin:0;padding-left:0;list-style:none;}
+  .list li{padding:8px 0;border-bottom:1px dashed rgba(0,0,0,.15);}
+  label{font-weight:700;}
+  input[type="text"],input[type="date"]{border:1px solid #777;padding:6px 8px;border-radius:4px;min-width:240px;font-size:14px;}
+  input[type="checkbox"]{transform:scale(1.1);margin-right:6px;}
+  .inline{display:inline-flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  .sub{margin-left:28px;margin-top:6px;}
+  .signature{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;}
+  .sig-box{flex:1 1 45%;border:2px solid #002e36;min-height:130px;padding:8px;background:#f9feff;display:flex;flex-direction:column;}
+  .sig-title{font-weight:800;margin-bottom:6px;font-size:14px;}
+  .sig-note{font-size:12px;opacity:.8;margin-top:6px;}
+  canvas.sig{width:100%;height:70px;border:1px solid #98c9d1;background:#fff;touch-action:none;}
+  .sig-actions{margin-top:6px;display:flex;gap:8px;justify-content:flex-end;}
+  .footer{text-align:center;padding:14px;font-size:12px;color:#666;}
+  .btns{display:flex;gap:10px;justify-content:flex-end;padding:12px 16px;}
+  button{border:1px solid #1b4;padding:8px 14px;border-radius:6px;cursor:pointer;background:#eafff0;font-weight:700;}
+  button.secondary{border-color:#888;background:#f1f1f1;}
+  input[type=file]{font-size:12px;}
+  @media print{
+    body{background:#fff;}
+    .page{margin:0;border:none;box-shadow:none;width:auto;}
+    .btns,#logoInput{display:none;}
+    #logo{border:none;}
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <div class="logo-wrap">
+        <img id="logo" alt="Logo BINI">
+        <input id="logoInput" type="file" accept="image/*">
+      </div>
+      <div class="societe">
+        <strong>7 Allée des Performances</strong><br>
+        93160 NOISY LE GRAND – France<br>
+        <strong>SIRET :</strong> 51035331100028<br>
+        <strong>☎ :</strong> 06.69.61.11.22<br>
+        <strong>✉ :</strong> bon@bini-tp.fr
+      </div>
+    </div>
+
+    <div class="band">ATTACHEMENT JOURNALIER</div>
+
+    <div class="bloc">
+      <div class="row">
+        <h1>BON N°
+          <input type="text" id="bon" style="width:160px;font-size:18px;font-weight:800;border:2px solid #900;" readonly>
+        </h1>
+        <div class="date">Date :
+          <input type="date" id="date">
+        </div>
+      </div>
+
+      <ul class="list">
+        <li>
+          <label>Client :</label>
+          <select>
+  <option value="">--Sélectionner--</option>
+  <option>EJL LIVRY</option>
+  <option>EJL CHELLES</option>
+  <option>TP GOULARD</option>
+  <option>EIFFAGE</option>
+  <option>COLAS</option>
+  <option>SOTP</option>
+  <option>EVO</option>
+  <option>LSTP</option>
+  <option>SNTPP</option>
+    <option>SNGT</option>
+  <option>EJL CANNES CLUSE</option>
+  <option>EUROVIA MITRY</option>
+</select>
+        </li>
+
+        <li>
+          <label>Temps de travail :</label>
+          <span class="inline">
+            <label class="muted"><input type="checkbox" id="jr" checked> Journée Régie</label>
+            <label class="muted"><input type="checkbox" id="nuit"> Nuit Régie</label>
+          </span>
+        </li>
+
+        <li>
+          <label>Heures supplémentaires :</label>
+          <span class="inline">
+            <input type="text" placeholder="+2H">
+            <span class="muted">(ex. 7H à 18H30)</span>
+          </span>
+        </li>
+
+        <li>
+          <label>Chantier :</label>
+          <input type="text" placeholder="CHELLES">
+        </li>
+        <li>
+          <label>Nom du chef de chantier :</label>
+          <input type="text" placeholder="Nom du chef de chantier">
+        </li>
+
+
+        <li>
+          <label>Chantier N° :</label>
+          <input type="text" placeholder="FPN2577003">
+        </li>
+
+        <li>
+          <label>Nom du chauffeur :</label>
+          <input type="text" placeholder="BINI">
+        </li>
+
+        <li>
+          <label>Type de camion et immatriculation :</label>
+          <div class="sub">
+            <div class="inline">
+              <input type="checkbox" id="t20" checked>
+              <label for="t20"> 20T : </label> <select id="sel-20t">
+  <option value="">Sélectionner votre matériel :</option>
+  <option>ET-795-BB Mercedes</option>
+  <option>EW-240-QE Mercedes</option>
+  <option>FD-048-ZK Mercedes</option>
+  <option>EY-922-GX Mercedes</option>
+  <option>DS-639-PZ Scania</option>
+  <option>EJ-808-VY Scania</option>
+  <option>EL-946-XL Scania</option>
+  <option>EB-593-CW Scania</option>
+</select>
+            </div>
+            <div class="inline">
+              <input type="checkbox" id="t20p">
+              <label for="t20p"> 20T Poussoir : </label> <select id="sel-20t-poussoir">
+  <option value="">Sélectionner votre matériel :</option>
+  <option>FY-660-NY Scania</option>
+  <option>FY-481-NY Scania</option>
+</select>
+            
+            </div>
+                        <div class="inline">
+                          <input type="checkbox" id="t20p">
+                          <label for="t20p"> 20T Grue : </label> <select id="sel-20t-Grue">
+              <option value="">Sélectionner votre matériel :</option>
+              <option>Scania</option>
+            </select>
+                        </div>
+                        <div class="inline">
+                          <input type="checkbox" id="t20p">
+                          <label for="t20p"> Citerne à eau : </label> <select id="sel-Citerne à eau">
+              <option value="">Sélectionner votre matériel :</option>
+              <option>Petite Citerne 14m3</option>
+              <option>Grande Citerne 25m3</option>
+            </select>
+            </div>
+                                    <div class="inline">
+                                      <input type="checkbox" id="t20p">
+                                      <label for="t20p"> SEMI 44T : </label> <select id="sel-SEMI 44T">
+                          <option value="">Sélectionner votre matériel :</option>
+                          <option>FY-818-PP Scania</option>
+                          <option>FC-016-JR Scania</option>
+                        </select>
+            </div>
+                                                <div class="inline">
+                                                  <input type="checkbox" id="t20p">
+                                                  <label for="t20p"> SEMI 44T Poussoir : </label> <select id="sel-SEMI 44T Poussoir">
+                                      <option value="">Sélectionner votre matériel :</option>
+                                      <option>BD-372-KV Scania</option>
+                                      <option>FY-128-WD Scania</option>
+                                    </select>
+                                     
+            <div class="inline">
+              <input type="checkbox" id="autre">
+              <label for="autre">Autre matériel :</label>
+              <input type="text" placeholder="">
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="signature">
+        <div class="sig-box">
+          <div class="sig-title">Signature du Chef de chantier :</div>
+          <canvas class="sig" id="sig-chef"></canvas>
+          <div class="sig-actions">
+            <button type="button" onclick="clearSig('sig-chef')" class="secondary">Effacer</button>
+          </div>
+        </div>
+        <div class="sig-box">
+          <div class="sig-title">Signature du Chauffeur :</div>
+          <canvas class="sig" id="sig-chauf"></canvas>
+          <div class="sig-actions">
+            <button type="button" onclick="clearSig('sig-chauf')" class="secondary">Effacer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button onclick="window.print()"> Générer un PDF</button>
+      <button class="secondary" onclick="resetForm()">Réinitialiser la saisie</button>
+      <button class="secondary" onclick="regenBon()"> Générer un bon</button>
+    </div>
+
+    <div class="footer">BINI Transport 2025</div>
+  </div>
+
+<script>
+  // --- Logo upload ---
+  const logoInput = document.getElementById('logoInput');
+  const logoImg = document.getElementById('logo');
+  logoInput.addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => { logoImg.src = ev.target.result; };
+    reader.readAsDataURL(file);
+  });
+
+  // --- Auto BON number (YYMMDD-SEQ) with per-day sequence in localStorage ---
+  
+function makeBon(){
+    const d = new Date();
+    const jour = String(d.getDate()).padStart(2,'0');
+    const mois = String(d.getMonth()+1).padStart(2,'0');
+    const annee = String(d.getFullYear()).slice(2); // deux derniers chiffres
+    const key = 'bini_seq_' + `${d.getFullYear()}-${mois}-${jour}`;
+    let seq = parseInt(localStorage.getItem(key) || '0',10) + 1;
+    localStorage.setItem(key, seq);
+    // Format : compteur sur 2 chiffres + '-' + jour + mois + année (ex: 01-0825)
+    return `${String(seq).padStart(2,'0')}-${jour}${mois}${annee}`;
+}
+-${m}-${day}`;
+    let seq = parseInt(localStorage.getItem(key) || '0',10) + 1;
+    localStorage.setItem(key, seq);
+    return `${y}${m}${day}-${String(seq).padStart(3,'0')}`;
+  }
+  function regenBon(){
+    document.getElementById('bon').value = makeBon();
+  }
+  // Set initial date and bon
+  document.getElementById('date').valueAsDate = new Date();
+  regenBon();
+
+  // --- Signature pads using Pointer Events (works with finger/stylus/mouse) ---
+  function setupPad(id){
+    const c = document.getElementById(id);
+    // Fit canvas to CSS size with devicePixelRatio
+    function fit(){
+      const r = c.getBoundingClientRect();
+      const ratio = window.devicePixelRatio || 1;
+      c.width = Math.floor(r.width * ratio);
+      c.height = Math.floor(r.height * ratio);
+      const ctx = c.getContext('2d');
+      ctx.setTransform(1,0,0,1,0,0); // reset
+      ctx.scale(ratio, ratio);
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+    }
+    fit();
+    window.addEventListener('resize', fit, {passive:true});
+
+    const ctx = c.getContext('2d');
+    let drawing = false, lastX=0, lastY=0;
+
+    function getPos(e){
+      const r = c.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+
+    function down(e){
+      drawing = true;
+      const p = getPos(e);
+      lastX = p.x; lastY = p.y;
+      e.preventDefault();
+    }
+    function move(e){
+      if(!drawing) return;
+      const p = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(lastX,lastY);
+      ctx.lineTo(p.x,p.y);
+      ctx.stroke();
+      lastX = p.x; lastY = p.y;
+      e.preventDefault();
+    }
+    function up(){ drawing = false; }
+
+    c.addEventListener('pointerdown', down);
+    c.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  }
+  ['sig-chef','sig-chauf'].forEach(setupPad);
+
+  function clearSig(id){
+    const c = document.getElementById(id);
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0,0,c.width,c.height);
+  }
+
+  function resetForm(){
+    document.querySelectorAll('input[type=text]').forEach(i=>{ if(i.id!=='bon') i.value=''; });
+    document.querySelectorAll('input[type=checkbox]').forEach(i=>i.checked=false);
+    document.getElementById('date').valueAsDate = new Date();
+    ['sig-chef','sig-chauf'].forEach(clearSig);
+    logoImg.src=''; logoInput.value='';
+    regenBon();
+  }
+</script>
+</body>
+</html>
